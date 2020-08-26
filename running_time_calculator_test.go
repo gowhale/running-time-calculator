@@ -6,9 +6,9 @@ import (
 
 func Test_calculateAveragePace(t *testing.T) {
 	type args struct {
-		kilometers  float32
-		timeMinutes float32
-		timeSeconds float32
+		kilometers  float64
+		timeMinutes float64
+		timeSeconds float64
 	}
 	tests := []struct {
 		name string
@@ -54,6 +54,14 @@ func Test_calculateAveragePace(t *testing.T) {
 				timeSeconds: 0,
 			},
 			want: "5:48 /km",
+		},
+		{
+			args: args{
+				kilometers:  5,
+				timeMinutes: 24,
+				timeSeconds: 0,
+			},
+			want: "4:48 /km",
 		},
 	}
 	for _, tt := range tests {

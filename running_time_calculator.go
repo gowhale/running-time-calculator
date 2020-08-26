@@ -1,25 +1,33 @@
 package main //1
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() { //3
 
 	// fmt.Println("Hello World")
 
-	// calculateAveragePacego(1, 1, 1)
+	fmt.Println(calculateAveragePace(5, 24, 1))
 
 }
 
-func calculateAveragePace(kilometers float32, timeMinutes float32, timeSeconds float32) string {
+func calculateAveragePace(kilometers float64, timeMinutes float64, timeSeconds float64) string {
 
-	averagePaceMinutes := 1000 / (kilometers * 1000 / timeMinutes)
-	averagePaceSeconds := 1000 / (kilometers * 1000 / timeSeconds)
+	totalSeconds := (timeMinutes * 60) + timeSeconds
 
-	averagePaceMinutesString := fmt.Sprintf("%.0f", averagePaceMinutes)
-	averagePaceSecondsString := fmt.Sprintf("%.0f", averagePaceSeconds)
+	secondsPerKilometer := totalSeconds / kilometers / 60
 
-	averagePaceStringFormatted := averagePaceMinutesString + ":0" + averagePaceSecondsString + " /km"
+	secondsPerKilometerFloor := math.Floor(secondsPerKilometer)
 
-	return averagePaceStringFormatted
+	decimalSeconds := math.Mod(secondsPerKilometer, 1.0)
+
+	averagePaceSeconds := decimalSeconds * 60
+
+	averagePaceSecondsString := fmt.Sprintf("%02.0f", averagePaceSeconds)
+	averagePaceMinutesString := fmt.Sprintf("%.0f", secondsPerKilometerFloor)
+
+	return averagePaceMinutesString + ":" + averagePaceSecondsString + " /km"
 
 }
