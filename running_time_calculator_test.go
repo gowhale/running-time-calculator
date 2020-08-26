@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -68,6 +69,32 @@ func Test_calculateAveragePace(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := calculateAveragePace(tt.args.kilometers, tt.args.timeMinutes, tt.args.timeSeconds); got != tt.want {
 				t.Errorf("calculateAveragePace() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_calculateKilometerTimes(t *testing.T) {
+	type args struct {
+		kilometers int
+		pace       string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			args: args{
+				kilometers: 5,
+				pace:       "5:00 /km",
+			},
+			want: []string{"5:00", "10:00", "15:00", "20:00", "25:00"},
+		}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := calculateKilometerTimes(tt.args.kilometers, tt.args.pace); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("calculateKilometerTimes() = %v, want %v", got, tt.want)
 			}
 		})
 	}
