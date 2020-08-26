@@ -1,17 +1,66 @@
 package main
 
-// go test -v running_time_calculator.go running_time_calculator_test.go
-
 import (
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
-func TestTheTests(t *testing.T) {
-	assert.EqualValues(t, 1, 1)
-}
-
-func TestCalculateAveragePaceFivekmRun(t *testing.T) {
-	assert.EqualValues(t, "5:00 /km", calculateAveragePace(5, 25, 0))
+func Test_calculateAveragePace(t *testing.T) {
+	type args struct {
+		kilometers  float32
+		timeMinutes float32
+		timeSeconds float32
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			args: args{
+				kilometers:  5,
+				timeMinutes: 25,
+				timeSeconds: 0,
+			},
+			want: "5:00 /km",
+		},
+		{
+			args: args{
+				kilometers:  5,
+				timeMinutes: 25,
+				timeSeconds: 25,
+			},
+			want: "5:05 /km",
+		},
+		{
+			args: args{
+				kilometers:  10,
+				timeMinutes: 50,
+				timeSeconds: 0,
+			},
+			want: "5:00 /km",
+		},
+		{
+			args: args{
+				kilometers:  5,
+				timeMinutes: 30,
+				timeSeconds: 0,
+			},
+			want: "6:00 /km",
+		},
+		{
+			args: args{
+				kilometers:  5,
+				timeMinutes: 29,
+				timeSeconds: 0,
+			},
+			want: "5:48 /km",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := calculateAveragePace(tt.args.kilometers, tt.args.timeMinutes, tt.args.timeSeconds); got != tt.want {
+				t.Errorf("calculateAveragePace() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

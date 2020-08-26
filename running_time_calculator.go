@@ -12,11 +12,13 @@ func main() { //3
 
 func calculateAveragePace(kilometers float32, timeMinutes float32, timeSeconds float32) string {
 
-	averagePace := 1000 / (kilometers * 1000 / timeMinutes)
+	averagePaceMinutes := 1000 / (kilometers * 1000 / timeMinutes)
+	averagePaceSeconds := 1000 / (kilometers * 1000 / timeSeconds)
 
-	averagePaceString := fmt.Sprintf("%.0f", averagePace)
+	averagePaceMinutesString := fmt.Sprintf("%.0f", averagePaceMinutes)
+	averagePaceSecondsString := fmt.Sprintf("%.0f", averagePaceSeconds)
 
-	averagePaceStringFormatted := averagePaceString + ":00 /km"
+	averagePaceStringFormatted := averagePaceMinutesString + ":0" + averagePaceSecondsString + " /km"
 
 	return averagePaceStringFormatted
 
