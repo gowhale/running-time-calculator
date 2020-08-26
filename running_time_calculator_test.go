@@ -1,5 +1,7 @@
 package main
 
+// go test -v running_time_calculator.go running_time_calculator_test.go
+
 import (
 	"testing"
 
@@ -8,4 +10,8 @@ import (
 
 func TestTheTests(t *testing.T) {
 	assert.EqualValues(t, 1, 1)
+}
+
+func TestCalculateAveragePaceFivekmRun(t *testing.T) {
+	assert.EqualValues(t, "5:00 /km", calculate_average_pace(5, 25, 0))
 }
