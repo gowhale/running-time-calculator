@@ -6,23 +6,18 @@ func main() { //3
 
 	// fmt.Println("Hello World")
 
-	// calculate_average_pace(1, 1, 1)
+	// calculateAveragePacego(1, 1, 1)
 
 }
 
-func calculate_average_pace(kilometers float32, time_minutes float32, time_seconds float32) string {
+func calculateAveragePace(kilometers float32, timeMinutes float32, timeSeconds float32) string {
 
-	fmt.Println(kilometers)
-	fmt.Println(time_minutes)
-	fmt.Println(time_seconds)
+	averagePace := 1000 / (kilometers * 1000 / timeMinutes)
 
-	average_pace := 1000 / (kilometers * 1000 / time_minutes)
+	averagePaceString := fmt.Sprintf("%.0f", averagePace)
 
-	average_pace_string := fmt.Sprintf("%.0f", average_pace)
+	averagePaceStringFormatted := averagePaceString + ":00 /km"
 
-	average_pace_string_formatted := average_pace_string + ":00 /km"
-	print(average_pace)
-
-	return average_pace_string_formatted
+	return averagePaceStringFormatted
 
 }

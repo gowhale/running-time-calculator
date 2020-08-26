@@ -13,5 +13,5 @@ func TestTheTests(t *testing.T) {
 }
 
 func TestCalculateAveragePaceFivekmRun(t *testing.T) {
-	assert.EqualValues(t, "5:00 /km", calculate_average_pace(5, 25, 0))
+	assert.EqualValues(t, "5:00 /km", calculateAveragePace(5, 25, 0))
 }
