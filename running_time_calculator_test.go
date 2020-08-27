@@ -90,7 +90,15 @@ func Test_calculateKilometerTimes(t *testing.T) {
 				pace:       "5:00 /km",
 			},
 			want: []string{"5:00", "10:00", "15:00", "20:00", "25:00"},
-		}}
+		},
+		{
+			args: args{
+				kilometers: 5,
+				pace:       "4:30 /km",
+			},
+			want: []string{"4:30", "9:00", "13:30", "18:00", "22:30"},
+		},
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := calculateKilometerTimes(tt.args.kilometers, tt.args.pace); !reflect.DeepEqual(got, tt.want) {
