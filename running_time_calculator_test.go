@@ -17,6 +17,7 @@ func Test_calculateAveragePace(t *testing.T) {
 		want string
 	}{
 		{
+			name: "5KM in 25mins",
 			args: args{
 				kilometers:  5,
 				timeMinutes: 25,
@@ -25,6 +26,7 @@ func Test_calculateAveragePace(t *testing.T) {
 			want: "5:00 /km",
 		},
 		{
+			name: "5KM in 25m 25s",
 			args: args{
 				kilometers:  5,
 				timeMinutes: 25,
@@ -33,6 +35,7 @@ func Test_calculateAveragePace(t *testing.T) {
 			want: "5:05 /km",
 		},
 		{
+			name: "10KM in 50m",
 			args: args{
 				kilometers:  10,
 				timeMinutes: 50,
@@ -41,6 +44,7 @@ func Test_calculateAveragePace(t *testing.T) {
 			want: "5:00 /km",
 		},
 		{
+			name: "5KM in 30m",
 			args: args{
 				kilometers:  5,
 				timeMinutes: 30,
@@ -49,6 +53,7 @@ func Test_calculateAveragePace(t *testing.T) {
 			want: "6:00 /km",
 		},
 		{
+			name: "5KM in 29m",
 			args: args{
 				kilometers:  5,
 				timeMinutes: 29,
@@ -57,6 +62,7 @@ func Test_calculateAveragePace(t *testing.T) {
 			want: "5:48 /km",
 		},
 		{
+			name: "5KM in 24m",
 			args: args{
 				kilometers:  5,
 				timeMinutes: 24,
@@ -85,6 +91,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 		want []string
 	}{
 		{
+			name: "5KM at 5:00 /km",
 			args: args{
 				kilometers: 5,
 				pace:       "5:00 /km",
@@ -92,6 +99,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			want: []string{"5:00", "10:00", "15:00", "20:00", "25:00"},
 		},
 		{
+			name: "5KM at 4:30 /km",
 			args: args{
 				kilometers: 5,
 				pace:       "4:30 /km",
@@ -99,6 +107,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			want: []string{"4:30", "9:00", "13:30", "18:00", "22:30"},
 		},
 		{
+			name: "10KM at 5:00 /km",
 			args: args{
 				kilometers: 10,
 				pace:       "5:00 /km",
@@ -106,6 +115,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			want: []string{"5:00", "10:00", "15:00", "20:00", "25:00", "30:00", "35:00", "40:00", "45:00", "50:00"},
 		},
 		{
+			name: "10KM at 5:59 /km",
 			args: args{
 				kilometers: 10,
 				pace:       "5:59 /km",
@@ -113,6 +123,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			want: []string{"5:59", "11:58", "17:57", "23:56", "29:55", "35:54", "41:53", "47:52", "53:51", "59:50"},
 		},
 		{
+			name: "1KM at 5:00 /km",
 			args: args{
 				kilometers: 1,
 				pace:       "5:00 /km",
@@ -120,6 +131,7 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			want: []string{"5:00"},
 		},
 		{
+			name: "0KM at 5:00 /km",
 			args: args{
 				kilometers: 0,
 				pace:       "5:00 /km",
@@ -147,25 +159,25 @@ func Test_convertStringToPaceStruct(t *testing.T) {
 	}{
 		{
 			args: args{
-				pace: "5:00 /km",
+				pace: "5:00",
 			},
 			want: Pace{5, 0},
 		},
 		{
 			args: args{
-				pace: "5:24 /km",
+				pace: "5:24",
 			},
 			want: Pace{5, 24},
 		},
 		{
 			args: args{
-				pace: "4:00 /km",
+				pace: "4:00",
 			},
 			want: Pace{4, 0},
 		},
 		{
 			args: args{
-				pace: "10:10 /km",
+				pace: "10:10",
 			},
 			want: Pace{10, 10},
 		},

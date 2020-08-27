@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// Run is the 'object' which holds all needed attributes about the run
 type Run struct {
 	kilometers          int
 	time                string
@@ -17,11 +18,13 @@ type Run struct {
 	kilometerBenchmarks []string
 }
 
+// Pace is used within the Run struct to help calculate wanted pace etc
 type Pace struct {
 	minutes float64
 	seconds float64
 }
 
+// Main will ask the user for inputs then print out metrics to achieve the running goal
 func main() {
 
 	var currentRun Run
@@ -41,25 +44,25 @@ func main() {
 
 }
 
+// calculateAveragePace takes in desired metrics and returns an average pace for the user to follow to achieve thier dreams
 func calculateAveragePace(kilometers float64, timeMinutes float64, timeSeconds float64) string {
 
 	totalSeconds := (timeMinutes * 60) + timeSeconds
 
-	secondsPerKilometer := totalSeconds / kilometers / 60
+	decimalMinutesPerKilometer := totalSeconds / kilometers / 60
+	decimalSeconds := math.Mod(decimalMinutesPerKilometer, 1.0)
 
-	secondsPerKilometerFloor := math.Floor(secondsPerKilometer)
-
-	decimalSeconds := math.Mod(secondsPerKilometer, 1.0)
-
+	averagePaceMinutes := math.Floor(decimalMinutesPerKilometer)
 	averagePaceSeconds := decimalSeconds * 60
 
 	averagePaceSecondsString := fmt.Sprintf("%02.0f", averagePaceSeconds)
-	averagePaceMinutesString := fmt.Sprintf("%.0f", secondsPerKilometerFloor)
+	averagePaceMinutesString := fmt.Sprintf("%.0f", averagePaceMinutes)
 
 	return averagePaceMinutesString + ":" + averagePaceSecondsString + " /km"
 
 }
 
+// calculateKilometerTimes takes in the amount of km the user wants to run and then creates a list of times for each km
 func calculateKilometerTimes(kilometers int, pace string) []string {
 
 	strippedPace := (strings.Replace(pace, " /km", "", 2))
@@ -75,13 +78,13 @@ func calculateKilometerTimes(kilometers int, pace string) []string {
 		fmt.Println(err)
 	}
 
-	secondsPerKilometer := (minutesFloat * 60) + secondsFloat
+	decimalMinutesPerKilometer := (minutesFloat * 60) + secondsFloat
 
 	benchMarks := make([]string, kilometers)
 
 	for i := 0; i < kilometers; i++ {
 
-		totalSeconds := float64((i + 1) * int(secondsPerKilometer))
+		totalSeconds := float64((i + 1) * int(decimalMinutesPerKilometer))
 		totalHoursDecimal := totalSeconds / 60
 
 		onlyMinutes := math.Floor(totalHoursDecimal)
@@ -99,9 +102,8 @@ func calculateKilometerTimes(kilometers int, pace string) []string {
 
 }
 
+// convertStringToPaceStruct takes a string of pace and converts it to the struct Pace
 func convertStringToPaceStruct(pace string) Pace {
-	// takes a string input to struct
-	// mm:ss /km
 
 	var customPace Pace
 
@@ -124,6 +126,7 @@ func convertStringToPaceStruct(pace string) Pace {
 
 }
 
+// setRunDistance asks the user to set a Run's distance attribute
 func (r *Run) setRunDistance() {
 
 	reader := bufio.NewReader(os.Stdin)
@@ -144,6 +147,7 @@ func (r *Run) setRunDistance() {
 
 }
 
+// setRunDistance asks the user to set a Run's time attribute
 func (r *Run) setRunTime() {
 
 	reader := bufio.NewReader(os.Stdin)
@@ -156,6 +160,7 @@ func (r *Run) setRunTime() {
 
 }
 
+// displayMetrics takes in a run struct and then prints out metrics in a friendly format
 func displayMetrics(r Run) {
 	fmt.Println("-----------------------------------------")
 	fmt.Println()
