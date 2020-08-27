@@ -13,6 +13,24 @@ Then will output the following:
 
 Just to practice using Go and maybe help me get a running PB 👀
 
+## Working example
+
+Below is an example of what is generated when the main sequence of code is executed:
+
+    How many kilometers would you like to go: 5
+
+    What time would you like to achieve: 24:00
+    -----------------------------------------
+
+    If you wish to run 5KM in 24:00
+    Then your average pace should be 4:48 /km
+
+    1 - 4:48
+    2 - 9:36
+    3 - 14:24
+    4 - 19:12
+    5 - 24:00
+
 ## Running the main code for yourself
 
 To be able to run the main sequence of code:
