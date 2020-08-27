@@ -151,6 +151,24 @@ func Test_convertStringToPaceStruct(t *testing.T) {
 			},
 			want: Pace{5, 0},
 		},
+		{
+			args: args{
+				pace: "5:24 /km",
+			},
+			want: Pace{5, 24},
+		},
+		{
+			args: args{
+				pace: "4:00 /km",
+			},
+			want: Pace{4, 0},
+		},
+		{
+			args: args{
+				pace: "10:10 /km",
+			},
+			want: Pace{10, 10},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

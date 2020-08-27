@@ -91,6 +91,23 @@ func convertStringToPaceStruct(pace string) Pace {
 
 	var customPace Pace
 
+	strippedPace := (strings.Replace(pace, " /km", "", 2))
+
+	splitPace := strings.Split(strippedPace, ":")
+
+	minutesFloat, err := strconv.ParseFloat(splitPace[0], 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	secondsFloat, err := strconv.ParseFloat(splitPace[1], 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	customPace.minutes = minutesFloat
+	customPace.seconds = secondsFloat
+
 	return customPace
 
 }
