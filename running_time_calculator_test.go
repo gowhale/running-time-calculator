@@ -98,6 +98,34 @@ func Test_calculateKilometerTimes(t *testing.T) {
 			},
 			want: []string{"4:30", "9:00", "13:30", "18:00", "22:30"},
 		},
+		{
+			args: args{
+				kilometers: 10,
+				pace:       "5:00 /km",
+			},
+			want: []string{"5:00", "10:00", "15:00", "20:00", "25:00", "30:00", "35:00", "40:00", "45:00", "50:00"},
+		},
+		{
+			args: args{
+				kilometers: 10,
+				pace:       "5:59 /km",
+			},
+			want: []string{"5:59", "9:58", "14:57", "19:56", "24:55", "29:54", "34:53", "39:52", "44:51", "49:50"},
+		},
+		{
+			args: args{
+				kilometers: 1,
+				pace:       "5:00 /km",
+			},
+			want: []string{"5:00"},
+		},
+		{
+			args: args{
+				kilometers: 0,
+				pace:       "5:00 /km",
+			},
+			want: []string{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
