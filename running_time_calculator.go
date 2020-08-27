@@ -35,38 +35,34 @@ func calculateAveragePace(kilometers float64, timeMinutes float64, timeSeconds f
 }
 
 func calculateKilometerTimes(kilometers int, pace string) []string {
-	// fmt.Println(kilometers)
-	// fmt.Println(pace)
+
 	strippedPace := (strings.Replace(pace, " /km", "", 2))
 	splitPace := strings.Split(strippedPace, ":")
-	// fmt.Println()
 
 	minutesFloat, err := strconv.ParseFloat(splitPace[0], 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	secondsFloat, err := strconv.ParseFloat(splitPace[1], 64)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	// fmt.Println(minutesFloat)
-	// fmt.Println(secondsFloat)
-	fmt.Println(err)
-
-	totalSeconds := (minutesFloat * 60) + secondsFloat
-
-	// totalSeconds := splitPace[0]*60 + splitPace[1]
+	secondsPerKilometer := (minutesFloat * 60) + secondsFloat
 
 	benchMarks := make([]string, kilometers)
 
 	for i := 0; i < kilometers; i++ {
 
-		totalSeconds := float64((i + 1) * int(totalSeconds))
-		decimalTime := totalSeconds / 60
+		totalSeconds := float64((i + 1) * int(secondsPerKilometer))
+		totalHoursDecimal := totalSeconds / 60
 
-		decimalMinutes := math.Floor(decimalTime)
-		decimalSeconds := math.Mod(decimalTime, 1.0) * 60
-		fmt.Println(decimalSeconds)
+		onlyMinutes := math.Floor(totalHoursDecimal)
+		onlySeconds := math.Mod(totalHoursDecimal, 1.0) * 60
 
-		// totalSecondsString := strconv.Itoa(decimalTime)
-
-		averagePaceSecondsString := fmt.Sprintf("%02.0f", decimalSeconds)
-		averagePaceMinutesString := fmt.Sprintf("%.0f", decimalMinutes)
+		averagePaceSecondsString := fmt.Sprintf("%02.0f", onlySeconds)
+		averagePaceMinutesString := fmt.Sprintf("%.0f", onlyMinutes)
 
 		currentTime := averagePaceMinutesString + ":" + averagePaceSecondsString
 
@@ -74,4 +70,5 @@ func calculateKilometerTimes(kilometers int, pace string) []string {
 	}
 
 	return benchMarks
+
 }
