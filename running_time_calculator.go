@@ -9,16 +9,35 @@ import (
 	"strings"
 )
 
-func main() { //3
+type Run struct {
+	kilometers          int
+	time                string
+	paceStruct          Pace
+	paceFormatted       string
+	kilometerBenchmarks []string
+}
+
+type Pace struct {
+	minutes float64
+	seconds float64
+}
+
+func main() {
 
 	var currentRun Run
 
 	currentRun.setRunDistance()
-	currentRun.setRunPace()
+	currentRun.setRunTime()
 
-	fmt.Println("Run attributes:")
-	fmt.Println(currentRun.kilometers)
-	fmt.Println(currentRun.pace)
+	currentRun.paceStruct = convertStringToPaceStruct(currentRun.time)
+
+	kilometerFloat := float64(currentRun.kilometers)
+
+	currentRun.paceFormatted = (calculateAveragePace(kilometerFloat, currentRun.paceStruct.minutes, currentRun.paceStruct.seconds))
+
+	currentRun.kilometerBenchmarks = calculateKilometerTimes(currentRun.kilometers, currentRun.paceFormatted)
+
+	displayMetrics(currentRun)
 
 }
 
@@ -80,20 +99,13 @@ func calculateKilometerTimes(kilometers int, pace string) []string {
 
 }
 
-type Pace struct {
-	minutes float64
-	seconds float64
-}
-
 func convertStringToPaceStruct(pace string) Pace {
 	// takes a string input to struct
 	// mm:ss /km
 
 	var customPace Pace
 
-	strippedPace := (strings.Replace(pace, " /km", "", 2))
-
-	splitPace := strings.Split(strippedPace, ":")
+	splitPace := strings.Split(pace, ":")
 
 	minutesFloat, err := strconv.ParseFloat(splitPace[0], 64)
 	if err != nil {
@@ -112,17 +124,11 @@ func convertStringToPaceStruct(pace string) Pace {
 
 }
 
-type Run struct {
-	kilometers int
-	pace       string
-}
-
 func (r *Run) setRunDistance() {
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("How many kilometers would you like to go: ")
 	text, _ := reader.ReadString('\n')
-	fmt.Println(text)
 
 	strippedText := (strings.Replace(text, "\n", "", 2))
 
@@ -138,42 +144,32 @@ func (r *Run) setRunDistance() {
 
 }
 
-func (r *Run) setRunPace() {
+func (r *Run) setRunTime() {
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("How many kilometers would you like to go: ")
+	fmt.Print("What time would you like to achieve: ")
 	text, _ := reader.ReadString('\n')
-	fmt.Println(text)
 
 	strippedText := (strings.Replace(text, "\n", "", 2))
 
-	r.pace = strippedText
+	r.time = strippedText
 
 }
 
-// func setRunKilometer() Run {
+func displayMetrics(r Run) {
+	fmt.Println("-----------------------------------------")
+	fmt.Println()
 
-// 	var r Run
+	concatanatedLine := fmt.Sprint("If you wish to run ", r.kilometers, "KM in ", r.time)
+	fmt.Println(concatanatedLine)
 
-// 	reader := bufio.NewReader(os.Stdin)
-// 	fmt.Print("How many kilometers would you like to go: ")
-// 	text, _ := reader.ReadString('\n')
-// 	fmt.Println(text)
+	concatanatedLine = fmt.Sprint("Then your average pace should be ", r.paceFormatted)
+	fmt.Println(concatanatedLine)
+	fmt.Println()
 
-// 	strippedText := (strings.Replace(text, "\n", "", 2))
-
-// 	k, err := strconv.Atoi(strippedText)
-
-// 	if err != nil {
-// 		fmt.Println("INVALID INPUT PLEASE TRY AGAIN")
-// 		return getRun()
-// 	}
-
-// 	r.kilometers = k
-
-// 	fmt.Println("Kilometers entered")
-// 	fmt.Println(r.kilometers)
-
-// 	return r
-
-// }
+	for km := 0; km < len(r.kilometerBenchmarks); km++ {
+		concatanatedLine = fmt.Sprint(km+1, " - ", r.kilometerBenchmarks[km])
+		fmt.Println(concatanatedLine)
+	}
+	fmt.Println()
+}
