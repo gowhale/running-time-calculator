@@ -135,3 +135,46 @@ func Test_calculateKilometerTimes(t *testing.T) {
 		})
 	}
 }
+
+func Test_convertStringToPaceStruct(t *testing.T) {
+	type args struct {
+		pace string
+	}
+	tests := []struct {
+		name string
+		args args
+		want Pace
+	}{
+		{
+			args: args{
+				pace: "5:00 /km",
+			},
+			want: Pace{5, 0},
+		},
+		{
+			args: args{
+				pace: "5:24 /km",
+			},
+			want: Pace{5, 24},
+		},
+		{
+			args: args{
+				pace: "4:00 /km",
+			},
+			want: Pace{4, 0},
+		},
+		{
+			args: args{
+				pace: "10:10 /km",
+			},
+			want: Pace{10, 10},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convertStringToPaceStruct(tt.args.pace); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convertStringToPaceStruct() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
