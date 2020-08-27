@@ -1,17 +1,24 @@
 package main //1
 
 import (
+	"bufio"
 	"fmt"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() { //3
 
-	// fmt.Println("Hello World")
+	var currentRun Run
 
-	fmt.Println(calculateKilometerTimes(5, "5:00 /km"))
+	currentRun.setRunDistance()
+	currentRun.setRunPace()
+
+	fmt.Println("Run attributes:")
+	fmt.Println(currentRun.kilometers)
+	fmt.Println(currentRun.pace)
 
 }
 
@@ -72,3 +79,84 @@ func calculateKilometerTimes(kilometers int, pace string) []string {
 	return benchMarks
 
 }
+
+type Pace struct {
+	minutes float64
+	seconds float64
+}
+
+func convertStringToPaceStruct(pace string) Pace {
+	// takes a string input to struct
+	// mm:ss /km
+
+	var customPace Pace
+
+	return customPace
+
+}
+
+type Run struct {
+	kilometers int
+	pace       string
+}
+
+func (r *Run) setRunDistance() {
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("How many kilometers would you like to go: ")
+	text, _ := reader.ReadString('\n')
+	fmt.Println(text)
+
+	strippedText := (strings.Replace(text, "\n", "", 2))
+
+	k, err := strconv.Atoi(strippedText)
+
+	if err != nil {
+		fmt.Println(k)
+		fmt.Println("INVALID INPUT PLEASE TRY AGAIN")
+		// r.setRunDistance()
+	} else {
+		r.kilometers = k
+	}
+
+}
+
+func (r *Run) setRunPace() {
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("How many kilometers would you like to go: ")
+	text, _ := reader.ReadString('\n')
+	fmt.Println(text)
+
+	strippedText := (strings.Replace(text, "\n", "", 2))
+
+	r.pace = strippedText
+
+}
+
+// func setRunKilometer() Run {
+
+// 	var r Run
+
+// 	reader := bufio.NewReader(os.Stdin)
+// 	fmt.Print("How many kilometers would you like to go: ")
+// 	text, _ := reader.ReadString('\n')
+// 	fmt.Println(text)
+
+// 	strippedText := (strings.Replace(text, "\n", "", 2))
+
+// 	k, err := strconv.Atoi(strippedText)
+
+// 	if err != nil {
+// 		fmt.Println("INVALID INPUT PLEASE TRY AGAIN")
+// 		return getRun()
+// 	}
+
+// 	r.kilometers = k
+
+// 	fmt.Println("Kilometers entered")
+// 	fmt.Println(r.kilometers)
+
+// 	return r
+
+// }
